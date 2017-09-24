@@ -1,0 +1,111 @@
+<html ng-app="app">
+<head>
+<script src="lib/sorttable.js"></script>
+<script src="lib/date.format.js"></script>
+<script src="lib/lodash.js"></script>
+<script src="lib/d3.v3.min.js"></script>
+<script src="lib/markerclusterer.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB860XjpiXMxzq52ha1qF8kx7-wBEpAg-c&libraries=visualization"></script>
+<script src="lib/angular.min.js"></script>
+<script src="app.js"></script>
+<script src="controller.js"></script>
+<script src="services.js"></script>
+<script src="heatmap.js"></script>
+<script src="bargraph.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css" href="lib/style.css"></link>
+</head>
+<body ng-controller="Ctrl">
+<h1>Chicago City Crime History</h1>
+Data provided courtesy of
+<a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2" target="none">
+	City of Chicago, Illinois
+</a>
+<hr class="hrbreak" />
+<div id="filters" class="row">
+	<div class="col-md-2">
+		<label class="control-label">Start Year</label>
+		<select class="form-control" ng-model="filterForm.startingDate" ng-change="updateDates()">
+			<option ng-repeat="d in filterForm.startDates" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-2">
+		<label class="control-label">End Year</label>
+		<select class="form-control" ng-model="filterForm.endingDate" ng-disabled="filterForm.endDates.length == 0">
+			<option ng-repeat="d in filterForm.endDates" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="control-label">Type</label>
+		<select multiple class="form-control" ng-model="filterForm.selectedTypes">
+			<option ng-repeat="d in filterForm.types" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="control-label">Community</label>
+		<select multiple class="form-control" ng-model="filterForm.selectedComms">
+			<option ng-repeat="d in filterForm.communities" value="{{d.Code}}">{{ d.Name }}</option>
+		</select>
+	</div>
+	<div class="col-md-1">
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-remove" style="margin-top: 24px;" ng-click="clearTopLevel()"></button>
+	</div>
+	<div class="col-md-1">
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-refresh" style="margin-top: 24px;" ng-disabled="!filterForm.endingDate" ng-click="updateMap()"></button>
+	</div>
+</div>
+<div id="row1" class="row">
+	<div class="col-md-6">
+		<div id="map"></div>
+	</div>
+	<div class="col-md-6">
+		<div id="searchrow" class="row">
+			<div class="col-md-4">
+				<select class="form-control" ng-model="queryForm.queryBy">
+					<option value="$" selected="">*</option>
+					<option value="Block">Block</option>
+					<option value="Community">Community</option>
+					<option value="Type">Offense</option>
+				</select>
+			</div>
+			<div class="col-md-6">
+				<input type="text" class="form-control" placeholder="Query" ng-model="queryForm.query[queryForm.queryBy]">
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default btn-block glyphicon glyphicon-remove" ng-click="clearQuery()"></button>
+			</div>
+		</div>
+		<div id="table" class="row">
+			<table class="col-md-12 sortable table table-fixed">
+	          <thead>
+	            <tr>
+	              <th class="col-xs-3">Offense</th>
+	              <th class="col-xs-3">Community</th>
+	              <th class="col-xs-5">Block</th>
+	              <th class="col-xs-1">GoTo</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed | filter:queryForm.query" ng-mouseenter="showMarker(point)" ng-mouseleave="clearMarkers()">
+					<td class="col-xs-3" title="{{ point.Type }}">{{ point.Type }}</td>
+					<td class="col-xs-3">{{ point.Community.Name }}</td>
+					<td class="col-xs-5">{{ point.Block }}</td>
+					<td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>
+	            </tr>
+	          </tbody>
+	        </table>
+        <button type="button" class="btn btn-primary btn-block" ng-click="loadMore()" ng-disabled="allDone">Load More</button>
+		</div>
+	</div>
+</div>
+<div id="row2" class="row">
+	<div class="col-md-6">
+		<crime-heatmap></crime-heatmap>
+	</div>
+	<div class="col-md-6">
+		<crime-bargraph></crime-bargraph>
+	</div>
+</div>
+</script>
+</body>
+</html>

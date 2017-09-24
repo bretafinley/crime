@@ -1,0 +1,163 @@
+h1 {
+	text-align: center;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 10px;
+}
+
+table {
+	border: 3px solid #F7F7F9;
+}
+
+.hrbreak {
+	margin-top: 0px;
+}
+
+.iwhr {
+	clear: both;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.iwtype {
+	float: left;
+	margin-right: 10px;
+	font-weight: bold;
+}
+
+.iwdate {
+	float: right;
+	margin-left:10px;
+	font-weight: bold;
+}
+
+.iwcomm {
+	font-style: italic;
+}
+
+.bar {
+	fill: steelblue;
+	stroke: black;
+}
+
+table {
+	width: 100%;
+}
+
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+  height: 325px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+
+td {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#row1 {
+	height: 500px;
+}
+
+#row2 {
+	height: 500px;
+}
+
+#table {
+	height: 100%;
+}
+
+#map {
+	height: 400px;
+	margin-top: 5px;
+}
+
+#filters {
+	margin-bottom: 20px;
+}
+
+#searchrow {
+	margin-bottom: 10px;
+}
+
+#heat {
+	padding: 0px;
+	margin: 0px;
+	overflow: scroll;
+	height: 500px;
+}
+
+#comms {
+	overflow: hidden;
+}
+
+#types {
+	overflow: hidden;
+	padding: 0px;
+	height: 500px;
+}
+
+#legend {
+
+}
+
+#graph {
+	overflow: scroll;
+	height: 500px;
+}
+
+rect.bordered {
+	stroke: #E6E6E6;
+	stroke-width: 2px;
+}
+
+text.mono {
+	font-size: 10pt;
+	font-family: Consolas, courier;
+	font-weight: bold;
+	fill: #000;
+}
+
+div.heattip {	
+    position: absolute;			
+    text-align: center;			
+    width: auto;					
+    height: auto;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+
+div.bartip {
+	position: absolute;			
+    text-align: center;			
+    width: auto;					
+    height: auto;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;	
+}
+
+.bordered:hover {
+	opacity: .5;
+}
